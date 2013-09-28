@@ -38,8 +38,11 @@ import cz.topolik.fsrepo.model.FileSystemModel;
  * @author Tomas Polesovsky
  */
 public class LocalFileSystemPermissionsUtil {
+    
+    public static boolean debugMode = true;
 
     public static PermissionChecker getPermissionChecker() {
+        if (debugMode) System.out.println("fsrepo-hook getPermissionChecker()");
         PermissionChecker permissionChecker = PermissionThreadLocal.getPermissionChecker();
         if(permissionChecker == null){
             try {
@@ -59,18 +62,21 @@ public class LocalFileSystemPermissionsUtil {
     }
 
     public static void checkFolder(long groupId, long folderId, String actionId) throws PrincipalException {
+        if (debugMode) System.out.println("fsrepo-hook checkFolder() - groupId("+groupId+") folderId("+folderId+") actionId("+actionId+")");
         if (!containsFolder(groupId, folderId, actionId)) {
             throw new PrincipalException();
         }
     }
 
     public static void checkFileEntry(long groupId, long fileEntryId, String actionId) throws PrincipalException {
+        if (debugMode) System.out.println("fsrepo-hook checkFileEntry() - groupId("+groupId+") fileEntryId("+fileEntryId+") actionId("+actionId+")");
         if (!containsFileEntry(groupId, fileEntryId, actionId)) {
             throw new PrincipalException();
         }
     }
 
     public static boolean containsFolder(long groupId, long folderId, String actionId) {
+        if (debugMode) System.out.println("fsrepo-hook containsFolder() - groupId("+groupId+") folderId("+folderId+") actionId("+actionId+")");
         if(LocalFileSystemLocalRepository.isLocalCall()){
             return true;
         }
@@ -78,6 +84,7 @@ public class LocalFileSystemPermissionsUtil {
     }
 
     public static boolean containsFileEntry(long groupId, long fileEntryId, String actionId) {
+        if (debugMode) System.out.println("fsrepo-hook containsFileEntry() - groupId("+groupId+") fileEntryId("+fileEntryId+") actionId("+actionId+")");
         if(LocalFileSystemLocalRepository.isLocalCall()){
             return true;
         }
@@ -85,6 +92,7 @@ public class LocalFileSystemPermissionsUtil {
     }
 
     public static boolean contains(FileSystemModel model, String actionId){
+        if (debugMode) System.out.println("fsrepo-hook contains() - model("+model+") actionId("+actionId+")");
         if(LocalFileSystemLocalRepository.isLocalCall()){
             return true;
         }
